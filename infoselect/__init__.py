@@ -41,7 +41,7 @@ class SelectVars:
         self.selection_mode = selection_mode
         self.gmm=gmm
     
-    def fit(self, X, y, verbose=True, eps=0):
+    def fit(self, X, y, verbose=True, eps=0, n_rounds=None):
         
         '''
         This function order the features according to their importance - from 
@@ -50,7 +50,8 @@ class SelectVars:
         Inputs: - X: numpy array of features; 
                 - y: numpy array of labels;
                 - verbose: print or not to print!?
-                - eps: small value so we can avoid taking log of zero in some cases 
+                - eps: small value so we can avoid taking log of zero in some cases
+                - n_rounds: early stopping with first n components
         '''
         
         #Checking input format
@@ -74,7 +75,10 @@ class SelectVars:
         if include_var:
             posic = []  # lista com posições das variáveis selecionadas até o momento
             self.feat_hist.append(copy.deepcopy(posic))
-            rounds = range(self.d) 
+            if isinstance(n_rounds,int) and n_rounds<=self.d:
+                rounds = range(n_rounds)
+            else:
+                rounds = range(self.d) 
 
             self.mi_list.append(0)
             self.stds_list.append(0)
@@ -84,7 +88,10 @@ class SelectVars:
         else:
             posic = copy.deepcopy(lista)
             self.feat_hist.append(copy.deepcopy(posic))
-            rounds = range(self.d-1) 
+            if isinstance(n_rounds,int) and n_rounds<=self.d-1:
+                rounds = range(n_rounds)
+            else:
+                rounds = range(self.d-1) 
 
             if type(self.gmm)==dict:
                 dic=MI_gmm_class(X, y, self.gmm, posic, eps)
