@@ -197,3 +197,11 @@ class SelectVars:
         '''
         
         return X[:,self.get_info().loc[rd,'features']]
+
+    def get_features(self, rd):
+
+        '''
+        This function returns the features selected at round rd.
+        '''
+
+        return self.get_info().loc[rd,'features']]
