@@ -205,6 +205,6 @@ class SelectVars:
         '''
 
         if isinstance(df, pd.DataFrame):
-            return [pd.columns[i] for i in self.get_info().loc[rd,'features']]]
+            return [pd.columns[i] for i in self.get_info().loc[rd,'features']]
         else:
             return self.get_info().loc[rd,'features']]
