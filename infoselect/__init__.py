@@ -162,7 +162,7 @@ class SelectVars:
              'delta': self.delta_list,
              'features':self.feat_hist,
              'num_feat':[len(l) for l in self.feat_hist]}
-        return pd.DataFrame(dic).loc[:,['rounds','mi_mean','mi_error','delta','num_feat','features']]
+        return pd.DataFrame(dic).loc[:,['rounds','mi_mean','mi_error','delta','num_feat','features']].set_index('rounds')
      
     def plot_delta(self): 
         
@@ -198,10 +198,13 @@ class SelectVars:
         
         return X[:,self.get_info().loc[rd,'features']]
 
-    def get_features(self, rd):
+    def get_features(self, rd, df=None):
 
         '''
         This function returns the features selected at round rd.
         '''
 
-        return self.get_info().loc[rd,'features']]
+        if isinstance(df, pd.DataFrame):
+            return [pd.columns[i] for i in self.get_info().loc[rd,'features']]]
+        else:
+            return self.get_info().loc[rd,'features']]
